@@ -11,6 +11,11 @@
     <ion-card *ngFor="let game of gamesList">
         <img [src]="game.imageUrl"/>
         <ion-card-content>
+            <ion-chip *ngFor="let platform of game.platforms" color="primary">
+                <ion-label>
+                    {{platform}}
+                </ion-label>
+            </ion-chip>
             <ion-card-title>
                 {{game.title}}
             </ion-card-title>
