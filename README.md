@@ -8,4 +8,5 @@
   * `ionic -v` (tiene que salir 3.19)
   * `ionic start ionic_videogames_list blank`
   * `cd ionic_videogames_list`
-  * `npm install angularfire2 firebase`
+  * `npm install angularfire2 firebase`
+  
