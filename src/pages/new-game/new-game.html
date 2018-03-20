@@ -13,6 +13,29 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+    <form [formGroup]="myForm">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Título</ion-label>
+                <ion-input formControlName="title"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Descripción</ion-label>
+                <ion-input formControlName="description"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Plataforma</ion-label>
+                <ion-input formControlName="platforms"></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-row center>
+            <ion-col text-center>
+                <button color="secondary" ion-button [disabled]="!myForm.valid">Guardar</button>
+            </ion-col>
+        </ion-row>
+
+    </form>
 
 </ion-content>

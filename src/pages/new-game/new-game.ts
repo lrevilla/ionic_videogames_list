@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Generated class for the NewGamePage page.
@@ -15,11 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NewGamePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    private myForm;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private fb: FormBuilder) {
+      this.myForm = this.fb.group({
+          title: ['', Validators.required ],
+          description: ['', Validators.required ],
+          platforms: ['', Validators.required ]
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewGamePage');
   }
+    
+    
 
 }
