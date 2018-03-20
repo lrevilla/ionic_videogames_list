@@ -8,7 +8,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-card *ngFor="let game of gamesList">
+    <ion-card *ngFor="let game of ( gamesList | async )">
         <img [src]="game.imageUrl"/>
         <ion-card-content>
             <ion-chip *ngFor="let platform of game.platforms" color="primary">
