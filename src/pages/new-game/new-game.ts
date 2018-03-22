@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {AngularFireDatabase} from "angularfire2/database/database";
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AngularFireDatabase } from "angularfire2/database/database";
+import { AngularFireStorage } from 'angularfire2/storage';
 
-/**
- * Generated class for the NewGamePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Camera } from "@ionic-native/camera";
+
 
 @IonicPage()
 @Component({
@@ -17,31 +14,63 @@ import {AngularFireDatabase} from "angularfire2/database/database";
 })
 export class NewGamePage {
 
-    private myForm;
+    private DEFAULT_IMAGE_URL = "assets/imgs/default-img.gif";
 
-  constructor(
-      public navCtrl: NavController,
-      public navParams: NavParams,
-      private fb: FormBuilder,
-      private afDatabase: AngularFireDatabase
-  ) {
-      this.myForm = this.fb.group({
-          title: ['', Validators.required ],
-          description: ['', Validators.required ],
-          platforms: ['', Validators.required ]
-      });
-  }
+    gameForm;
+    currentImageUrl = this.DEFAULT_IMAGE_URL;
+    imageBinary;
+    task;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NewGamePage');
-  }
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private fb: FormBuilder,
+        private afDatabase: AngularFireDatabase,
+        private camera: Camera,
+        public storage: AngularFireStorage
+    ) {
+        this.gameForm = this.fb.group({
+            title: ['', Validators.required ],
+            description: ['', Validators.required ],
+            platforms: ['', Validators.required ],
+            imageUrl: [this.currentImageUrl]
+        });
+    }
 
     addGame() {
         const games = this.afDatabase.list('games');
 
-        var data = this.myForm.value;
-        data.platforms = data.platforms.split(',');
-        games.push(this.myForm.value).then(result => this.navCtrl.pop())
+        this.gameForm.value.platforms = this.gameForm.value.platforms.split(',');
+        games.push(this.gameForm.value).then(result => this.navCtrl.pop())
+    }
+
+    pickGameImage(useCamera) {
+        this.takePhoto(useCamera).then(
+            image => {
+                const fileName = `videogame_cover_${new Date().getTime()}.jpg`;
+                this.imageBinary = 'data:image/jpeg;base64,' + image;
+                this.storage.ref(fileName).putString(this.imageBinary, 'data_url').then(
+                    storageInfo => {
+                        this.currentImageUrl = storageInfo.downloadURL
+                        this.gameForm.value.imageUrl = this.currentImageUrl
+                    }
+                );
+            }
+        )
+    }
+
+    async takePhoto(useCamera) {
+        let cameraOptions = {
+            sourceType: useCamera ? this.camera.PictureSourceType.CAMERA: this.camera.PictureSourceType.PHOTOLIBRARY,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            quality: 100,
+            targetWidth: 1000,
+            targetHeight: 1000,
+            encodingType: this.camera.EncodingType.JPEG,
+            correctOrientation: true
+        }
+
+        return await this.camera.getPicture(cameraOptions);
     }
 
 }

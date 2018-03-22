@@ -15,7 +15,7 @@
 
 <ion-content>
 
-    <form [formGroup]="myForm">
+    <form [formGroup]="gameForm">
         <ion-list>
             <ion-item>
                 <ion-label floating>Título</ion-label>
@@ -32,7 +32,26 @@
         </ion-list>
         <ion-row center>
             <ion-col text-center>
-                <button color="secondary" ion-button [disabled]="!myForm.valid" (click)="addGame()">Guardar</button>
+                <ion-card>
+                    <ion-card-header text-left>
+                        <button color="secondary" ion-button (click)="pickGameImage()">
+                            <ion-icon name="photos"></ion-icon>
+                        </button>
+                        <button color="secondary" ion-button (click)="pickGameImage(true)">
+                            <ion-icon name="camera"></ion-icon>
+                        </button>
+
+                    </ion-card-header>
+                    <ion-card-content style="padding: 0; max-height:205px;">
+                        <img src="{{currentImageUrl}}"/>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+        <ion-row center>
+            <ion-col text-center>
+                <button color="secondary" ion-button [disabled]="!gameForm.valid" (click)="addGame()">Guardar</button>
             </ion-col>
         </ion-row>
 

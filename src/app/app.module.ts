@@ -3,14 +3,16 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Camera } from "@ionic-native/camera";
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import {NewGamePage} from "../pages/new-game/new-game";
+import { NewGamePage } from "../pages/new-game/new-game";
 
 // Import the Firebase Module
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireStorageModule } from "angularfire2/storage";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCLpIWG1rWhh18Y06vf1C3-Ol0IVdZ04Ws",
@@ -31,7 +33,8 @@ export const firebaseConfig = {
         BrowserModule,
         IonicModule.forRoot(MyApp),
         AngularFireModule.initializeApp(firebaseConfig),
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+        AngularFireStorageModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -42,6 +45,7 @@ export const firebaseConfig = {
     providers: [
         StatusBar,
         SplashScreen,
+        Camera,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

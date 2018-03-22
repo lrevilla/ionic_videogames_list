@@ -6,10 +6,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-list>
     <ion-card *ngFor="let game of ( gamesList | async )">
-        <img [src]="game.imageUrl"/>
+        <ion-card-header style="padding:0; max-height:205px; margin-bottom: 10px;">
+            <img [src]="game.imageUrl"/>
+        </ion-card-header>
         <ion-card-content>
             <ion-chip *ngFor="let platform of game.platforms" color="primary">
                 <ion-label>
